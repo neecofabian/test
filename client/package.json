@@ -8,7 +8,9 @@
     "build-only": "bazel build :build",
     "type-check": "bazel test :type-check",
     "test": "bazel test :vitest",
-    "coverage": "echo 'TODO bazel support' && vitest run --coverage"
+    "format": "bazel run @aspect_rules_format//format",
+    "coverage": "echo 'TODO bazel support' && vitest run --coverage",
+    "lint": "TIMING=1 eslint --cache ."
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.0.2",
@@ -38,6 +40,7 @@
     "postcss-calc": "^9.0.1",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-will-change": "^4.0.1",
+    "prettier": "3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.5",
     "tailwind-merge": "^1.14.0",
     "tailwindcss": "^3.3.3",

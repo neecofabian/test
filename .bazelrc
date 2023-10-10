@@ -7,3 +7,6 @@ query --@aspect_rules_ts//ts:skipLibCheck=always
 
 # Required for rules_js
 build --enable_runfiles
+
+# run --@aspect_rules_format//format:go_enabled
+#run --@aspect_rules_format//format:terraform_enabled

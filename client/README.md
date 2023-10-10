@@ -21,4 +21,4 @@ Also, we show how to extract vue components as pre-built npm packages, using our
 See the `libraries/` folder and the `pnpm-workspace.yaml` file.
 This makes the build more incremental since those packages ("component libraries") are not be re-built every time.
 
-To scale up the example further, and to be more Bazel-idiomatic, the Vite composition of tools like `esbuild` and  plugins like `@vitejs/plugin-vue` could be decomposed into an analogous Bazel pipeline.
+To scale up the example further, and to be more Bazel-idiomatic, the Vite composition of tools like `esbuild` and plugins like `@vitejs/plugin-vue` could be decomposed into an analogous Bazel pipeline.

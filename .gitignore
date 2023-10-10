@@ -11,3 +11,4 @@
 node_modules
 # we are using pnpm
 package-lock.json
+.eslintcache

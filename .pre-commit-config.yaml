@@ -1,0 +1,14 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: check-yaml
+      - id: trailing-whitespace
+
+  - repo: local
+    hooks:
+      - id: bazel-super-formatter
+        name: Format
+        language: system
+        entry: bazel run @aspect_rules_format//format
+        files: .*

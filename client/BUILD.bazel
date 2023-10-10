@@ -18,7 +18,10 @@ SRCS = [
     "tsconfig.config.json",
     "tsconfig.json",
     "vite.config.ts",
+    ".eslintrc.js",
     "//client/src",
+    # "//:prettier_config_js",
+    # "//client:eslintrc_js",
 ]
 
 # genrule(
@@ -33,28 +36,31 @@ SRCS = [
 #     visibility = ["//:__pkg__"],
 # )
 
-# js_library(
-#     name = "postcss_config_js",
-#     srcs = ["postcss.config.js"],
-#     deps = [
-#         "//:node_modules/autoprefixer",
-#         "//:node_modules/postcss-custom-media",
-#         "//:node_modules/postcss-focus-visible",
-#         "//:node_modules/postcss-inset",
-#     ],
-# )
-
 js_library(
-    name = "prettier_config_js",
-    srcs = ["prettier.config.js"],
-    data = [
-        "//:node_modules/prettierrc",
+    name = "eslintrc_js",
+    srcs = [".eslintrc.js"],
+    deps = [
+        "//:node_modules/@shopify/prettier",
+        "//:node_modules/@shopify/react",
+        "//:node_modules/@shopify/typescript",
     ],
 )
 
+# js_library(
+#     name = "prettier_config_js",
+#     srcs = ["//:__pkg___/prettier.config.js"],
+# )
+
+# load("@com_github_airyhq_bazel_tools//lint:prettier.bzl", "prettier")
+#
+# prettier(
+#     name = "prettier",
+#     config = "//:.prettierrc.json",
+#     # srcs = ["index.js"], # Defaults to all js,jsx,ts,tsx,scss,css files
+#     ignore = "//:.prettierignore",  # Defaults to lint/.prettierignore
+# )
 
 BUILD_DEPS = [":node_modules/" + d for d in [
-    # "@bazel-example/vue-library",
     "@radix-ui/react-slot",
     "@shopify/eslint-plugin",
     "@shopify/typescript-configs",
@@ -73,7 +79,6 @@ BUILD_DEPS = [":node_modules/" + d for d in [
     "tailwindcss",
     "tailwindcss-animate",
     "vite",
-        
 ]]
 
 vite_bin.vite(
@@ -115,7 +120,6 @@ build_test(
     targets = [
         ":build",
         ":type-check",
-        ":vitest"
+        ":vitest",
     ],
 )
-

@@ -1,16 +1,10 @@
 {
   "extends": "@shopify/typescript-configs/dom.json",
-  "include": [
-    "env.d.ts",
-    "src/**/*",
-    "src/**/*.tsx"
-  ],
+  "include": ["env.d.ts", "src/**/*", "src/**/*.tsx"],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     }
   },
   "references": [

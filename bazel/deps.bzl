@@ -9,7 +9,6 @@ load(
     "go_repository",
 )
 
-
 def articulate_go_dependencies(go_sdk_version = "host"):
     go_rules_dependencies()
     go_register_toolchains(version = go_sdk_version)

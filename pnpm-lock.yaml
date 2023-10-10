@@ -88,6 +88,9 @@ importers:
       postcss-will-change:
         specifier: ^4.0.1
         version: 4.0.1(postcss@8.4.31)
+      prettier:
+        specifier: 3.0.3
+        version: 3.0.3
       prettier-plugin-tailwindcss:
         specifier: ^0.5.5
         version: 0.5.5(prettier@3.0.3)
