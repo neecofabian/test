@@ -1,0 +1,48 @@
+{
+  "name": "@bazel-example/vue",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "ibazel run :vite",
+    "build": "run-p type-check build-only test",
+    "preview": "vite preview --port 4173",
+    "build-only": "bazel build :build",
+    "type-check": "bazel test :type-check",
+    "test": "bazel test :vitest",
+    "coverage": "echo 'TODO bazel support' && vitest run --coverage"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.0.2",
+    "@vitejs/plugin-react": "^4.1.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "lucide-react": "^0.284.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "devDependencies": {
+    "@bazel/ibazel": "0.16.2",
+    "@shopify/eslint-plugin": "^43.0.0",
+    "@shopify/typescript-configs": "^5.1.0",
+    "@types/node": "18.11.9",
+    "@types/react": "18.0.25",
+    "@types/react-dom": "18.0.9",
+    "@typescript-eslint/eslint-plugin": "5.44.0",
+    "@typescript-eslint/parser": "5.44.0",
+    "autoprefixer": "^10.4.16",
+    "eslint": "8.28.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "npm-run-all": "4.1.5",
+    "postcss": "^8.4.31",
+    "postcss-calc": "^9.0.1",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-will-change": "^4.0.1",
+    "prettier-plugin-tailwindcss": "^0.5.5",
+    "tailwind-merge": "^1.14.0",
+    "tailwindcss": "^3.3.3",
+    "typescript": "4.9.3",
+    "vite": "4.4.11",
+    "vitest": "^0.34.6"
+  }
+}

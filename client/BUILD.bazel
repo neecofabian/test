@@ -1,0 +1,121 @@
+# TODO: add unit tests instead of only testing building
+load("@bazel_skylib//rules:build_test.bzl", "build_test")
+load("@aspect_rules_js//js:defs.bzl", "js_library")
+load("@npm//:defs.bzl", "npm_link_all_packages")
+load("@npm//client:typescript/package_json.bzl", vue_tsc_bin = "bin")
+load("@npm//client:vite/package_json.bzl", vite_bin = "bin")
+load("@npm//client:vitest/package_json.bzl", vitest_bin = "bin")
+
+# This macro expands to a link_npm_package for each third-party package in package.json
+npm_link_all_packages(name = "node_modules")
+
+SRCS = [
+    "env.d.ts",
+    "index.html",
+    "package.json",
+    "postcss.config.js",
+    "tailwind.config.js",
+    "tsconfig.config.json",
+    "tsconfig.json",
+    "vite.config.ts",
+    "//client/src",
+]
+
+# genrule(
+#     name = "tailwind",
+#     # include our rust files to scan for used class names, as well as the
+#     # tailwind configuration
+#     srcs = ["tailwind.config.js"],
+#     outs = ["static/tailwind.css"],
+#     cmd = "$(execpath @npm//tailwindcss/bin:tailwindcss) --output=$(OUTS)",
+#     # pull in npm dependency
+#     tools = ["@npm//tailwindcss/bin:tailwindcss"],
+#     visibility = ["//:__pkg__"],
+# )
+
+# js_library(
+#     name = "postcss_config_js",
+#     srcs = ["postcss.config.js"],
+#     deps = [
+#         "//:node_modules/autoprefixer",
+#         "//:node_modules/postcss-custom-media",
+#         "//:node_modules/postcss-focus-visible",
+#         "//:node_modules/postcss-inset",
+#     ],
+# )
+
+js_library(
+    name = "prettier_config_js",
+    srcs = ["prettier.config.js"],
+    data = [
+        "//:node_modules/prettierrc",
+    ],
+)
+
+
+BUILD_DEPS = [":node_modules/" + d for d in [
+    # "@bazel-example/vue-library",
+    "@radix-ui/react-slot",
+    "@shopify/eslint-plugin",
+    "@shopify/typescript-configs",
+    "@vitejs/plugin-react",
+    "autoprefixer",
+    "class-variance-authority",
+    "clsx",
+    "lucide-react",
+    "postcss",
+    "postcss-calc",
+    "postcss-flexbugs-fixes",
+    "postcss-will-change",
+    "react",
+    "react-dom",
+    "tailwind-merge",
+    "tailwindcss",
+    "tailwindcss-animate",
+    "vite",
+        
+]]
+
+vite_bin.vite(
+    name = "build",
+    srcs = SRCS + BUILD_DEPS,
+    args = ["build"],
+    chdir = package_name(),
+    out_dirs = ["dist"],
+)
+
+vue_tsc_bin.tsc_test(
+    name = "type-check",
+    args = ["--noEmit"],
+    chdir = package_name(),
+    data = SRCS + BUILD_DEPS,
+    include_declarations = True,
+)
+
+vitest_bin.vitest_test(
+    name = "vitest",
+    args = [
+        "run",
+        "--config=vite.config.ts",
+    ],
+    chdir = package_name(),
+    data = BUILD_DEPS + SRCS + [":vite_srcs_export"] + [":node_modules/vitest"] + glob([
+        "src/**/*.test.ts",
+    ]),
+)
+
+vite_bin.vite_binary(
+    name = "vite",
+    chdir = package_name(),
+    data = SRCS + BUILD_DEPS,
+)
+
+build_test(
+    name = "build_test",
+    targets = [
+        ":build",
+        ":type-check",
+        ":vitest"
+    ],
+)
+

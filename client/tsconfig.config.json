@@ -1,0 +1,14 @@
+{
+  "extends": "@shopify/typescript-configs/node-library.json",
+  "include": [
+    "vite.config.*",
+    "vitest.config.*",
+    "cypress.config.*"
+  ],
+  "compilerOptions": {
+    "composite": true,
+    "types": [
+      "node"
+    ]
+  }
+}

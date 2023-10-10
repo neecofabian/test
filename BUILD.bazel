@@ -1,0 +1,34 @@
+"Root BUILD file for all frontend examples"
+
+load("@npm//:defs.bzl", "npm_link_all_packages")
+
+# Create the root of the "virtual store" of npm dependencies under bazel-out.
+# This must be done in the package where the pnpm workspace is rooted.
+npm_link_all_packages(name = "node_modules")
+# load("@bazel_gazelle//:def.bzl", "gazelle")
+#
+# # gazelle:prefix github.com/example/project
+# gazelle(name = "gazelle")
+
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+load(
+    "@bazel_gazelle//:def.bzl",
+    "gazelle",
+)
+ 
+# gazelle:prefix articulate
+gazelle(
+    name = "gazelle",
+)
+
+gazelle(
+    name = "gazelle-update-repos",
+    args = [
+        "-from_file=go.mod",
+        # "-to_macro=bazel/deps.bzl%articulate_go_dependencies",
+        "-to_macro=deps.bzl%articulate_go_dependencies",
+        "-prune",
+        "-build_file_proto_mode=disable_global",
+    ],
+    command = "update-repos",
+)
