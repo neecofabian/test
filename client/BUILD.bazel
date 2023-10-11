@@ -21,7 +21,6 @@ SRCS = [
     "vitest.setup.ts",
     ".eslintrc.js",
     "//client/src",
-    ".prettier.config.js",
 ]
 
 # genrule(
