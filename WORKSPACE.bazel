@@ -1,75 +1,4 @@
-# Marker that this folder is the root of a Bazel workspace
 workspace(name = "tisl_articulate")
-
-# load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
-#
-# gazelle_dependencies()
-
-# load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-#
-# http_archive(
-#     name = "io_bazel_rules_go",
-#     sha256 = "56d8c5a5c91e1af73eca71a6fab2ced959b67c86d12ba37feedb0a2dfea441a6",
-#     urls = [
-#         "https://mirror.bazel.build/github.com/bazelbuild/rules_go/releases/download/v0.37.0/rules_go-v0.37.0.zip",
-#         "https://github.com/bazelbuild/rules_go/releases/download/v0.37.0/rules_go-v0.37.0.zip",
-#     ],
-# )
-#
-# http_archive(
-#     name = "bazel_gazelle",
-#     sha256 = "ecba0f04f96b4960a5b250c8e8eeec42281035970aa8852dda73098274d14a1d",
-#     urls = [
-#         "https://mirror.bazel.build/github.com/bazelbuild/bazel-gazelle/releases/download/v0.29.0/bazel-gazelle-v0.29.0.tar.gz",
-#         "https://github.com/bazelbuild/bazel-gazelle/releases/download/v0.29.0/bazel-gazelle-v0.29.0.tar.gz",
-#     ],
-# )
-#
-# load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
-# load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
-#
-# ############################################################
-# # Define your own dependencies here using go_repository.
-# # Else, dependencies declared by rules_go/gazelle will be used.
-# # The first declaration of an external repository "wins".
-# ############################################################
-#
-# load("//bazel:deps.bzl", "articulate_go_dependencies")
-#
-# # gazelle:repository_macro deps.bzl%articulate_go_dependencies
-# articulate_go_dependencies()
-#
-# go_rules_dependencies()
-#
-# go_register_toolchains(version = "1.20.9")
-#
-# gazelle_dependencies()
-
-# load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-# http_archive(
-#     name = "rules_nodejs",
-#     sha256 = "162f4adfd719ba42b8a6f16030a20f434dc110c65dc608660ef7b3411c9873f9",
-#     strip_prefix = "rules_nodejs-6.0.2",
-#     url = "https://github.com/bazelbuild/rules_nodejs/releases/download/v6.0.2/rules_nodejs-v6.0.2.tar.gz",
-# )
-
-# load("@rules_nodejs//nodejs:repositories.bzl", "DEFAULT_NODE_VERSION", "nodejs_register_toolchains")
-#
-# nodejs_register_toolchains(
-#     name = "nodejs",
-#     node_version = DEFAULT_NODE_VERSION,
-# )
-#
-#
-# load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
-# git_repository(
-#     name = "com_github_airyhq_bazel_tools",
-#     branch = "main",
-#     remote = "https://github.com/airyhq/bazel-tools.git"
-# )
-#
-# load("@com_github_airyhq_bazel_tools//:repositories.bzl", "airy_bazel_tools_dependencies")
-# airy_bazel_tools_dependencies()
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
@@ -91,20 +20,10 @@ http_archive(
     url = "https://github.com/aspect-build/bazel-super-formatter/archive/refs/tags/v2.0.0.tar.gz",
 )
 
-#########################################
-# rules_format setup                    #
-# Paste to the bottom of your WORKSPACE #
-#########################################
-# Fetches the rules_format dependencies.
-# If you want to have a different version of some dependency,
-# you should fetch it *before* calling this.
-# Alternatively, you can skip calling this function, so long as you've
-# already fetched all the dependencies.
 load("@aspect_rules_format//format:repositories.bzl", "rules_format_dependencies")
 
 rules_format_dependencies()
 
-# If you didn't already register a toolchain providing nodejs, do that:
 load("@rules_nodejs//nodejs:repositories.bzl", "DEFAULT_NODE_VERSION", "nodejs_register_toolchains")
 
 nodejs_register_toolchains(
@@ -115,23 +34,6 @@ nodejs_register_toolchains(
 load("@aspect_rules_format//format:dependencies.bzl", "parse_dependencies")
 
 parse_dependencies()
-
-# If Python formatting is enabled, you'll need to uncomment the following as well.
-#
-# load("@rules_python//python:repositories.bzl", "python_register_toolchains")
-#
-# python_register_toolchains(
-#     name = "python3",
-#     python_version = "3.10",
-# )
-#
-# load("@rules_python//python/pip_install:repositories.bzl", "pip_install_dependencies")
-#
-# pip_install_dependencies()
-#
-# load("@aspect_rules_format//:requirements.bzl", install_black = "install_deps")
-#
-# install_black()
 
 load(
     "@tisl_articulate//bazel:repositories.bzl",
@@ -147,10 +49,7 @@ load(
 
 articulate_go_dependencies()
 
-# Installs toolchains for running programs under Node, Python, etc.
-# Be sure to register your own toolchains before this.
-# Most users should do this LAST in their WORKSPACE to avoid getting our versions of
-# things like the Go toolchain rather than the one you intended.
+# This should stay at the end of the WORKSPACE
 load("@aspect_rules_format//format:toolchains.bzl", "format_register_toolchains")
 
 format_register_toolchains()

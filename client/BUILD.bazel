@@ -1,4 +1,3 @@
-# TODO: add unit tests instead of only testing building
 load("@bazel_skylib//rules:build_test.bzl", "build_test")
 load("@aspect_rules_js//js:defs.bzl", "js_library")
 load("@npm//:defs.bzl", "npm_link_all_packages")
@@ -22,18 +21,6 @@ SRCS = [
     ".eslintrc.js",
     "//client/src",
 ]
-
-# genrule(
-#     name = "tailwind",
-#     # include our rust files to scan for used class names, as well as the
-#     # tailwind configuration
-#     srcs = ["tailwind.config.js"],
-#     outs = ["static/tailwind.css"],
-#     cmd = "$(execpath @npm//tailwindcss/bin:tailwindcss) --output=$(OUTS)",
-#     # pull in npm dependency
-#     tools = ["@npm//tailwindcss/bin:tailwindcss"],
-#     visibility = ["//:__pkg__"],
-# )
 
 js_library(
     name = "eslintrc_js",
@@ -64,6 +51,7 @@ BUILD_DEPS = [":node_modules/" + d for d in [
     "tailwindcss",
     "tailwindcss-animate",
     "vite",
+    "vitest",
 ]]
 
 vite_bin.vite(
@@ -73,14 +61,6 @@ vite_bin.vite(
     chdir = package_name(),
     out_dirs = ["dist"],
 )
-
-# vue_tsc_bin.tsc_test(
-#     name = "type-check",
-#     args = ["--noEmit"],
-#     chdir = package_name(),
-#     data = SRCS + BUILD_DEPS,
-#     include_declarations = True,
-# )
 
 filegroup(
     name = "vite_srcs_export",
@@ -111,7 +91,7 @@ vitest_bin.vitest_test(
         "--config=vite.config.ts",
     ],
     chdir = package_name(),
-    data = BUILD_DEPS + SRCS + [":vite_srcs_export"] + [":vite_srcs_tests"] + [":node_modules/vitest"],
+    data = BUILD_DEPS + SRCS + [":vite_srcs_export"] + [":vite_srcs_tests"],
     visibility = ["//visibility:public"],
 )
 
@@ -125,7 +105,6 @@ build_test(
     name = "build_test",
     targets = [
         ":build",
-        # ":type-check",
         ":vitest",
     ],
 )
