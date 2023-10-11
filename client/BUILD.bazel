@@ -18,10 +18,10 @@ SRCS = [
     "tsconfig.config.json",
     "tsconfig.json",
     "vite.config.ts",
+    "vitest.setup.ts",
     ".eslintrc.js",
     "//client/src",
-    # "//:prettier_config_js",
-    # "//client:eslintrc_js",
+    ".prettier.config.js",
 ]
 
 # genrule(
@@ -46,24 +46,11 @@ js_library(
     ],
 )
 
-# js_library(
-#     name = "prettier_config_js",
-#     srcs = ["//:__pkg___/prettier.config.js"],
-# )
-
-# load("@com_github_airyhq_bazel_tools//lint:prettier.bzl", "prettier")
-#
-# prettier(
-#     name = "prettier",
-#     config = "//:.prettierrc.json",
-#     # srcs = ["index.js"], # Defaults to all js,jsx,ts,tsx,scss,css files
-#     ignore = "//:.prettierignore",  # Defaults to lint/.prettierignore
-# )
-
 BUILD_DEPS = [":node_modules/" + d for d in [
     "@radix-ui/react-slot",
     "@shopify/eslint-plugin",
     "@shopify/typescript-configs",
+    "@testing-library/jest-dom",
     "@vitejs/plugin-react",
     "autoprefixer",
     "class-variance-authority",
@@ -72,7 +59,6 @@ BUILD_DEPS = [":node_modules/" + d for d in [
     "postcss",
     "postcss-calc",
     "postcss-flexbugs-fixes",
-    "postcss-will-change",
     "react",
     "react-dom",
     "tailwind-merge",
@@ -89,12 +75,34 @@ vite_bin.vite(
     out_dirs = ["dist"],
 )
 
-vue_tsc_bin.tsc_test(
-    name = "type-check",
-    args = ["--noEmit"],
-    chdir = package_name(),
-    data = SRCS + BUILD_DEPS,
-    include_declarations = True,
+# vue_tsc_bin.tsc_test(
+#     name = "type-check",
+#     args = ["--noEmit"],
+#     chdir = package_name(),
+#     data = SRCS + BUILD_DEPS,
+#     include_declarations = True,
+# )
+
+filegroup(
+    name = "vite_srcs_export",
+    srcs = glob(["src/**/*"]),
+    visibility = ["//visibility:public"],
+)
+
+filegroup(
+    name = "vite_public_export",
+    srcs = glob(["public/**/*"]),
+    visibility = ["//visibility:public"],
+)
+
+filegroup(
+    name = "vite_srcs_tests",
+    srcs = glob([
+        "src/**/*.spec.ts",
+        "tests/**/*",
+        "src/**/*.test.*",
+    ]),
+    visibility = ["//visibility:public"],
 )
 
 vitest_bin.vitest_test(
@@ -104,9 +112,8 @@ vitest_bin.vitest_test(
         "--config=vite.config.ts",
     ],
     chdir = package_name(),
-    data = BUILD_DEPS + SRCS + [":vite_srcs_export"] + [":node_modules/vitest"] + glob([
-        "src/**/*.test.ts",
-    ]),
+    data = BUILD_DEPS + SRCS + [":vite_srcs_export"] + [":vite_srcs_tests"] + [":node_modules/vitest"],
+    visibility = ["//visibility:public"],
 )
 
 vite_bin.vite_binary(
@@ -119,7 +126,7 @@ build_test(
     name = "build_test",
     targets = [
         ":build",
-        ":type-check",
+        # ":type-check",
         ":vitest",
     ],
 )

@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { CountBtn } from '@/components/CountBtn';
 import ReactSVG from '@/assets/react.svg';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/components/Badge';
 
 export function App() {
   return (
@@ -20,7 +19,6 @@ export function App() {
         >
           <Badge variant="outline">shadcn/ui</Badge>
         </a>
-        <CountBtn />
       </div>
     </main>
   );
