@@ -5,12 +5,6 @@
   };
   outputs = { flake-utils, nixpkgs, ... }: flake-utils.lib.eachDefaultSystem (system:
     let
-          systems = [
-      "aarch64-darwin"
-      "aarch64-linux"
-      "x86_64-darwin"
-      "x86_64-linux"
-    ];
       pkgs = nixpkgs.legacyPackages.${system};
 
       bazel-wrapper = pkgs.writeShellScriptBin "bazel" (if pkgs.hostPlatform.isMacOS then ''
@@ -74,17 +68,12 @@
 
           pkgs.pre-commit
         ] ++ pkgs.lib.optional pkgs.hostPlatform.isLinux (with pkgs; [
-          # need to install bazelisk on mac
+          # need to install bazelisk on your mac
           bazelisk
           bazel-fhs
           bazel-watcher
           bazel-buildtools
         ]);
-
-        shellHook = ''
-          set -h
-          . ./dev/nix/shell-hook.sh
-        '';
 
         USE_BAZEL_VERSION =
           if pkgs.hostPlatform.isMacOS then "" else pkgs.bazel_6.version;
