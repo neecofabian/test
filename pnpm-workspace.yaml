@@ -1,3 +1,4 @@
 packages:
+    # TODO(sm): this is for the wasm package but is not created yet
     - packages/*
     - client 
