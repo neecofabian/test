@@ -26,14 +26,15 @@ js_library(
     name = "eslintrc_js",
     srcs = [".eslintrc.js"],
     deps = [
-        "//:node_modules/@shopify/prettier",
-        "//:node_modules/@shopify/react",
-        "//:node_modules/@shopify/typescript",
+        ":node_modules/@shopify/prettier",
+        ":node_modules/@shopify/react",
+        ":node_modules/@shopify/typescript",
     ],
 )
 
 BUILD_DEPS = [":node_modules/" + d for d in [
     "@radix-ui/react-slot",
+    "@radix-ui/react-dropdown-menu",
     "@shopify/eslint-plugin",
     "@shopify/typescript-configs",
     "@testing-library/jest-dom",
