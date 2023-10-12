@@ -6,7 +6,7 @@ go_library(
     importpath = "backend",
     visibility = ["//visibility:private"],
     deps = [
-        "//internal",
+        "//internal/database",
         "@com_github_go_chi_chi_v5//:chi",
         "@com_github_go_chi_chi_v5//middleware",
     ],
