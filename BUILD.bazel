@@ -1,20 +1,6 @@
-"Root BUILD file for all frontend examples"
-
 load("@npm//:defs.bzl", "npm_link_all_packages")
 
-# Create the root of the "virtual store" of npm dependencies under bazel-out.
-# This must be done in the package where the pnpm workspace is rooted.
 npm_link_all_packages(name = "node_modules")
-# load("@bazel_gazelle//:def.bzl", "gazelle")
-#
-# # gazelle:prefix github.com/example/project
-# gazelle(name = "gazelle")
-
-# js_library(
-#     name = "prettier_config_js",
-#     srcs = ["prettier.config.js"],
-#     visibility = ["//visibility:public"],
-# )
 
 load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 load(

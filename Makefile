@@ -3,9 +3,9 @@ all: build.bazel tidy
 
 build.backend:
 	bazel build \
-			--platforms @zig_sdk//platform:linux_arm64 \
-			--extra_toolchains @zig_sdk//toolchain:linux_arm64_musl \
-			//cmd/backend
+		--platforms @zig_sdk//platform:linux_arm64 \
+		--extra_toolchains @zig_sdk//toolchain:linux_arm64_musl \
+		//cmd/backend
 .PHONY: build.bazel
 
 tidy:

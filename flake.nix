@@ -7,6 +7,7 @@
     let
       pkgs = nixpkgs.legacyPackages.${system};
 
+      # bazel-* sourced from https://github.com/sourcegraph/sourcegraph/blob/main/shell.nix
       bazel-wrapper = pkgs.writeShellScriptBin "bazel" (if pkgs.hostPlatform.isMacOS then ''
         unset CC CXX
         exec ${pkgs.bazelisk}/bin/bazelisk "$@"
