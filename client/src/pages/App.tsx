@@ -4,7 +4,6 @@ import ReactSVG from '@/assets/react.svg';
 import { CountButton } from '@/components/CountButton';
 import { ThemeProvider } from '@/components/ThemeProvider';
 
-import { Badge } from '@/components/ui/badge';
 import { Page } from '@/components/Page';
 
 export function App() {
