@@ -5,9 +5,9 @@
     "dev": "ibazel run :vite",
     "build": "run-p build-only test",
     "preview": "vite preview --port 4173",
-    "build-only": "bazel build //client:build",
-    "test": "bazel test //client:vitest",
-    "format": "bazel run @aspect_rules_format//format",
+    "build-only": "bazel build :build",
+    "test": "bazel test :vitest",
+    "format": "bazel run @aspect_rules_format//format client",
     "coverage": "echo 'TODO bazel support' && vitest run --coverage",
     "lint": "TIMING=1 eslint --cache ."
   },
