@@ -1,6 +1,7 @@
 package database
 
 import (
+	"articulate/internal/database/basestore"
 	"context"
 	"time"
 
@@ -31,12 +32,12 @@ type PromptStore interface {
 	ResetQueryTriggerTimestamps(ctx context.Context, queryID int64) error
 	SetQueryTriggerNextRun(ctx context.Context, triggerQueryID int64, next time.Time, latestResults time.Time) error
 	GetQueryTriggerForJob(ctx context.Context, triggerJob int32) (*QueryTrigger, error)
-	EnqueueQueryTriggerJobs(context.Context) ([]*TriggerJob, error)
-	ListQueryTriggerJobs(context.Context, ListTriggerJobsOpts) ([]*TriggerJob, error)
-	CountQueryTriggerJobs(ctx context.Context, queryID int64) (int32, error)
+	// EnqueueQueryTriggerJobs(context.Context) ([]*TriggerJob, error)
+	// ListQueryTriggerJobs(context.Context, ListTriggerJobsOpts) ([]*TriggerJob, error)
+	// CountQueryTriggerJobs(ctx context.Context, queryID int64) (int32, error)
 
-	UpdateTriggerJobWithResults(ctx context.Context, triggerJobID int32, queryString string, results []*result.CommitMatch) error
-	DeleteOldTriggerJobs(ctx context.Context, retentionInDays int) error
+	// UpdateTriggerJobWithResults(ctx context.Context, triggerJobID int32, queryString string, results []*result.CommitMatch) error
+	// DeleteOldTriggerJobs(ctx context.Context, retentionInDays int) error
 }
 
 // promptStore exposes methods to read and write codemonitors domain models
@@ -46,11 +47,19 @@ type promptStore struct {
 	now func() time.Time
 }
 
-// var _ PromptStore = (*promptStore)(nil)
+var _ PromptStore = (*promptStore)(nil)
+
+// Now returns the current UTC time with time.Microsecond truncated
+// because Postgres 9.6 does not support saving microsecond. This is
+// particularly useful when trying to compare time values between Go
+// and what we get back from the Postgres.
+func Now() time.Time {
+	return time.Now().UTC().Truncate(time.Microsecond)
+}
 
 // CodeMonitorsWith returns a new Store backed by the given database.
 func CodeMonitorsWith(other basestore.ShareableStore) *promptStore {
-	return CodeMonitorsWithClock(other, time.Now().UTC().Truncate(time.Microsecond))
+	return CodeMonitorsWithClock(other, Now)
 }
 
 // CodeMonitorsWithClock returns a new Store backed by the given database and

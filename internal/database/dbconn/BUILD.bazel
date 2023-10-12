@@ -5,21 +5,14 @@ go_library(
     name = "dbconn",
     srcs = [
         "config.go",
+        "connect.go",
+        "open.go",
     ],
     importpath = "articulate/internal/database/dbconn",
     visibility = ["//:__subpackages__"],
     deps = [
+        "@com_github_caarlos0_env_v9",
         "@com_github_jackc_pgx_v5//:pgx",
         "@com_github_jackc_pgx_v5//stdlib",
-        # "@com_github_lib_pq//:pq",
-        "@com_github_caarlos0_env_v9",
     ],
 )
-
-# go_test(
-#     name = "dbconn_test",
-#     timeout = "short",
-#     srcs = ["config_test.go"],
-#     embed = [":dbconn"],
-#     deps = ["@com_github_sourcegraph_log//logtest"],
-# )

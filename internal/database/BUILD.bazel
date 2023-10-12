@@ -6,11 +6,17 @@ go_library(
     name = "database",
     srcs = [
         "prompts.go",
+        "prompts_jobs.go",
+        "prompts_queries.go",
     ],
     importpath = "articulate/internal/database",
     visibility = ["//:__subpackages__"],
     deps = [
+        "//internal/database/basestore",
+        "//internal/database/dbutil",
+        "@com_github_jackc_pgconn//:pgconn",
         "@com_github_keegancsmith_sqlf//:sqlf",
-        # "@com_github_sourcegraph_sourcegraph//internal/database/basestore"
+        "@com_github_lib_pq//:pq",
+        "@com_github_pkg_errors//:errors",
     ],
 )

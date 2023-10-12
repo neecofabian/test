@@ -6,7 +6,7 @@ import (
 	// "github.com/sourcegraph/sourcegraph/lib/errors"
 
 	"github.com/caarlos0/env/v9"
-	"github.com/rs/zerolog"
+	// "github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 )
 

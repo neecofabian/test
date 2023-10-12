@@ -7,7 +7,7 @@
 # when we upgrade at the cost of a fresh dev environment.
 PGVER=$(pg_ctl -V | awk '{print $NF}')
 
-export PGHOST="${SG_DATA_DIR:-$HOME/.articulate}/postgres"
+export PGHOST="$HOME/.articulate/postgres"
 export PGDATA="${PGHOST}/${PGVER}"
 export PGDATABASE=postgres
 export PGDATASOURCE="postgresql:///postgres?host=${PGHOST}"
@@ -29,6 +29,7 @@ if [ ! -d "$PGDATA" ]; then
 		    full_page_writes = off
 	EOF
 fi
+
 if ! pg_isready --quiet; then
   echo 'Starting postgresql database...'
   pg_ctl start -l "$PGHOST/log" 3>&-

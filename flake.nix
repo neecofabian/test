@@ -80,6 +80,14 @@
           bazel-watcher
           bazel-buildtools
         ]);
+
+        shellHook = ''
+          set -h
+          . ./dev/nix/shell-hook.sh
+        '';
+
+        USE_BAZEL_VERSION =
+          if pkgs.hostPlatform.isMacOS then "" else pkgs.bazel_6.version;
       };
     });
 }
