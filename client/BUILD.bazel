@@ -53,6 +53,7 @@ BUILD_DEPS = [":node_modules/" + d for d in [
     "tailwindcss-animate",
     "vite",
     "vitest",
+    "react-router-dom"
 ]]
 
 vite_bin.vite(
